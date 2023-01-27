@@ -1,5 +1,5 @@
 # reprod-s390-go-bug
-Reproduce golang 1.19 load ca certs crash on s390
+Reproduce golang 1.19 load ca certs crash on s390. Golang used to to cpu.S390X.HasVX checks before [this commit](https://github.com/golang/go/commit/d63865b5d19ec3ca57aa30b45b2e0b57b3d54087#diff-6cfb2737ce443ae80fdc9da31885b5163f26fbed57e9c812dc4c0e0434dcfa95L52).
 
 The crash happens on a z12 when it tries to make a https connection with a binary build by golang 1.19.
 
@@ -19,10 +19,10 @@ loadcerts: go1.19.5
 >More background [here.](https://stackoverflow.com/questions/72444103/what-does-running-the-multiarch-qemu-user-static-does-before-building-a-containe)
 
 ```
- # docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
- ...
- Setting /usr/bin/qemu-s390x-static as binfmt interpreter for s390x
- ...
+host# docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+...
+Setting /usr/bin/qemu-s390x-static as binfmt interpreter for s390x
+...
   
 host# docker run -it --rm --name s390-focal multiarch/ubuntu-core:s390x-focal /bin/bash
 
